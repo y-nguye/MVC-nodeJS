@@ -1,0 +1,7 @@
+each item in course
+    .card(style='width: 18rem')
+        img.card-img-top(src=item.img, alt='')
+        .card-body
+            h5.card-title #{ item.name }
+            p.card-text #{ item.description }
+            a.btn.btn-primary(href='#') Go somewhere

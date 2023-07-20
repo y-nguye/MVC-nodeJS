@@ -2,7 +2,7 @@ const homeRoute = require('./home'); // Có thể ghi ./home.js do famework expr
 
 function route(app) {
     // homeRoute là cấp con nhỏ hơn của "/"
-    app.use('/', homeRoute);
+    app.get('/', homeRoute);
 }
 
 // route sẽ được nhận tại index.js chính,

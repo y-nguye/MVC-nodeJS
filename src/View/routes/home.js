@@ -5,7 +5,7 @@ const XNXX = express.Router(); // Cấu hình Route được viết tách ra ngo
 const homeController = require('../../Controller/HomeController');
 
 // route "/" ở đây sẽ nối thêm IRL vào "/" bên file index.js(routes)
-XNXX.use('/', homeController.index); // Chạy trực tiếp theo router "/"
+XNXX.get('/', homeController.index); // Chạy trực tiếp theo router "/"
 
 // index.js (routes-folder) sẽ nhận XNXX
 module.exports = XNXX;
