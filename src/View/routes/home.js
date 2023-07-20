@@ -1,8 +1,11 @@
-const express = require("express");
-const router = express.Router();
+const express = require('express');
+const XNXX = express.Router(); // Cấu hình Route được viết tách ra ngoài
 
-const homeController = require("../../Controller/HomeController");
+// Nhận đối tượng từ file HomeController
+const homeController = require('../../Controller/HomeController');
 
-router.use("/", homeController.index);
+// route "/" ở đây sẽ nối thêm IRL vào "/" bên file index.js(routes)
+XNXX.use('/', homeController.index); // Chạy trực tiếp theo router "/"
 
-module.exports = router;
+// index.js (routes-folder) sẽ nhận XNXX
+module.exports = XNXX;

@@ -1,19 +1,20 @@
 {
-  "name": "mvc-nodejs",
-  "version": "1.0.0",
-  "description": "",
-  "main": "src/View/index.js",
-  "scripts": {
-    "start": "nodemon --inspect src/View/index.js",
-    "watch": "node-sass --watch src/View/resources/scss/style.scss src/View/css/style.css",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "express": "^4.18.2",
-    "nodemon": "^3.0.1",
-    "pug": "^3.0.2"
-  }
+    "name": "mvc-nodejs",
+    "version": "1.0.0",
+    "description": "",
+    "main": "src/View/index.js",
+    "scripts": {
+        "start": "nodemon --inspect src/View/index.js",
+        "watch": "node-sass --watch src/View/resources/styles/scss/style.scss src/View/resources/styles/css/app.scss",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@prettier/plugin-pug": "^2.5.1",
+        "express": "^4.18.2",
+        "nodemon": "^3.0.1",
+        "pug": "^3.0.2"
+    }
 }
