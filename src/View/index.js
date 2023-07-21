@@ -7,6 +7,13 @@ const route = require('./routes');
 const db = require('../Model/config/db');
 db.connect();
 
+app.use(
+    express.urlencoded({
+        extended: true,
+    })
+);
+app.use(express.json());
+
 app.use(express.static(path.join(__dirname, 'resources')));
 
 // Cấu hình Pug

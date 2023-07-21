@@ -10,11 +10,12 @@ html(lang='en')
             crossorigin='anonymous'
         )
         link(rel='stylesheet', href='/styles/css/app.css')
-        title Home Page
+        title Create Course Page
     body
         include ./partials/navBar.pug
-        a(href='/create') Tạo khoá học
-        include ./partials/card.pug
+        .p-5
+            h1 Tạo khoá học
+            include ./partials/form.pug
 
         //- Option 1: Bootstrap Bundle with Popper
         script(

@@ -1,0 +1,14 @@
+form(method='POST', action='create/store')
+    .mb-3
+        label.form-label(for='nameCourse') Tên khóa học
+        input#nameCourse.form-control(type='string', name='name')
+    .mb-3
+        label.form-label(for='discriptionCourse') Mô tả
+        input#discriptionCourse.form-control(type='text', name='description')
+    .mb-3
+        label.form-label(for='imgCourse') Hình ảnh link
+        input#imgCourse.form-control(type='text', name='img')
+    .mb-3
+        label.form-label(for='videoID') VideoID
+        input#videoID.form-control(type='text', name='videoID')
+    button.btn.btn-primary(type='submit') Create
