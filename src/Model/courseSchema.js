@@ -8,6 +8,8 @@ const Course = new Schema({
     name: { type: String, default: 'Mặc định khi dữ liệu trống' },
     description: { type: String, maxLength: 255 },
     img: { type: String, maxLength: 255 },
+    slug: { type: String, maxLength: 225 },
+    videoID: { type: String, maxLength: 225 },
     createdDays: { type: Date, default: Date.now() },
     updatedDays: { type: Date, default: Date.now() },
 });

@@ -1,8 +1,9 @@
 const homeRoute = require('./home'); // Có thể ghi ./home.js do famework express tự hiểu nên có thể ghi tắt
+const courseRoute = require('./courses');
 
 function route(app) {
-    // homeRoute là cấp con nhỏ hơn của "/"
-    app.get('/', homeRoute);
+    app.use('/course', courseRoute);
+    app.use('/', homeRoute);
 }
 
 // route sẽ được nhận tại index.js chính,

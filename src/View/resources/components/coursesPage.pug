@@ -10,11 +10,20 @@ html(lang='en')
             crossorigin='anonymous'
         )
         link(rel='stylesheet', href='/styles/css/app.css')
-        title Document
+        title Course Page
     body
         include ./partials/navBar.pug
-        h1 #{ title }
-        include ./partials/card.pug
+        h1 #{ course.name }
+        iframe(
+            width='560',
+            height='315',
+            src=`https://www.youtube.com/embed/${course.videoID}`,
+            title='YouTube video player',
+            frameborder='0',
+            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share',
+            allowfullscreen=''
+        )
+        button Click me!
 
         //- Option 1: Bootstrap Bundle with Popper
         script(

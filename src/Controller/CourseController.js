@@ -1,10 +1,10 @@
 const Course = require('../Model/courseSchema');
 
-class HomeController {
-    // Lấy dữ liệu ra từ Database
+class CourseController {
     async index(req, res) {
         try {
-            const promiseCourse = Course.find({});
+            //   Database phương thức findOne      key : value
+            const promiseCourse = Course.findOne({ slug: req.params.slugXXX });
             await promiseCourse
                 .then((course) => getCourse(course))
                 .then((x) => console.log(x))
@@ -14,13 +14,12 @@ class HomeController {
         }
 
         function getCourse(course) {
-            res.render('homePage', {
-                // course: course,
-                course, // ES6 viết gọn lại, nó mang ý nghĩa như dòng trên
+            res.render('coursesPage', {
+                course,
             });
-            return 'Browser refreshed 🔆';
+            return 'Browser refreshed 🌀';
         }
     }
 }
 
-module.exports = new HomeController();
+module.exports = new CourseController();
