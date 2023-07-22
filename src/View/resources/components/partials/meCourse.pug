@@ -1,0 +1,18 @@
+table.table
+    thead
+        tr
+            th(scope='col') #
+            th(scope='col') Tên khoá học
+            th(scope='col') Thời gian bắt đầu học
+            th(scope='col') Thời gian cập nhật
+            th(scope='col')
+    tbody
+    each item in course
+        tr
+            th(scope='row') #{ item.displayIndex }
+            td #{ item.name }
+            td #{ item.createdAtPug }
+            td #{ item.updatedAtPug }
+            td
+                a.btn-link(type='button', href=`/course/${item.id}/edit`) Sửa
+                a.btn-link.ms-3(type='button', href=`${item.id}/delete`) Xoá

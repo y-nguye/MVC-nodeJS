@@ -20,6 +20,45 @@ class CourseController {
             return 'Browser refreshed 🌀';
         }
     }
+
+    // [GET] /course/:id/edit
+    async edit(req, res) {
+        try {
+            const promiseCourse = Course.findById(req.params.id);
+            await promiseCourse
+                .then((course) => getCourse(course))
+                .catch((err) => console.log('ERROR 🆘', err));
+        } catch (error) {
+            res.status(400).json({ error: 'Fail to get Course' });
+        }
+
+        function getCourse(course) {
+            course.path = `/course/${course._id}`;
+            res.render('editCoursePage', {
+                course,
+            });
+        }
+    }
+
+    // action form sẽ điều hướng đến đây
+    // [POST] /course/:id
+    async update(req, res) {
+        try {
+            const promiseCourse = Course.findByIdAndUpdate(
+                req.params.id,
+                req.body
+            );
+            await promiseCourse
+                .then(() => getCourse())
+                .catch((err) => console.log('ERROR 🆘', err));
+        } catch (error) {
+            res.status(400).json({ error: 'Fail to get Course' });
+        }
+
+        function getCourse() {
+            res.redirect('/me');
+        }
+    }
 }
 
 module.exports = new CourseController();

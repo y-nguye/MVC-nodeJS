@@ -1,9 +1,10 @@
-each item in course
-    .card(style='width: 18rem')
-        a(href=`/course/${item.slug}`)
-            img.card-img-top(src=item.img, alt='')
-        .card-body
+.container
+    each item in course
+        .card(style='width: 18rem')
             a(href=`/course/${item.slug}`)
-                h5.card-title #{ item.name }
-            p.card-text #{ item.description }
-            a.btn.btn-primary(href='#') Go somewhere
+                img.card-img-top(src=item.img, alt='')
+            .card-body
+                a(href=`/course/${item.slug}`)
+                    h5.card-title #{ item.name }
+                p.card-text #{ item.description }
+                a.btn.btn-primary(href='#') Go somewhere

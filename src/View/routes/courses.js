@@ -3,6 +3,8 @@ const XNXX = express.Router();
 
 const courseController = require('../../Controller/CourseController');
 
+XNXX.get('/:id/edit', courseController.edit);
+XNXX.post('/:id', courseController.update);
 XNXX.get('/:slugXXX', courseController.index);
 
 module.exports = XNXX;

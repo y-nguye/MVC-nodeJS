@@ -1,6 +1,6 @@
 nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
-    .container-fluid
-        a.navbar-brand(href='#') Navbar
+    .container
+        a.navbar-brand(href='/') Navbar
         button.navbar-toggler(
             type='button',
             data-bs-toggle='collapse',
@@ -11,16 +11,23 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
         )
             span.navbar-toggler-icon
         #navbarNav.collapse.navbar-collapse
-            ul.navbar-nav
+            ul.navbar-nav.ms-auto
                 li.nav-item
-                    a.nav-link.active(aria-current='page', href='#') Home
-                li.nav-item
-                    a.nav-link(href='#') Features
-                li.nav-item
-                    a.nav-link(href='#') Pricing
-                li.nav-item
-                    a.nav-link.disabled(
+                    a.nav-link.active(aria-current='page', href='/') Home
+                li.nav-item.dropdown
+                    a#navbarDropdown.nav-link.dropdown-toggle(
                         href='#',
-                        tabindex='-1',
-                        aria-disabled='true'
-                    ) Disabled
+                        role='button',
+                        data-bs-toggle='dropdown',
+                        aria-expanded='false'
+                    )
+                        | Dropdown
+                    ul.dropdown-menu(aria-labelledby='navbarDropdown')
+                        li
+                            a.dropdown-item(href='/me') Khoá học của tôi
+                        li
+                            a.dropdown-item(href='/create') Tạo khoá học
+                        li
+                            hr.dropdown-divider
+                        li
+                            a.dropdown-item(href='#') Bài viết của tôi

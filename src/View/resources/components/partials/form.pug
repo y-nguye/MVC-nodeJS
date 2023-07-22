@@ -1,14 +1,26 @@
-form(method='POST', action='create/store')
+form(method='POST', action=`${course.path}`)
     .mb-3
         label.form-label(for='nameCourse') Tên khóa học
-        input#nameCourse.form-control(type='string', name='name')
+        input#nameCourse.form-control(
+            type='string',
+            name='name',
+            value=`${course.name ? course.name : ''}`
+        )
     .mb-3
         label.form-label(for='discriptionCourse') Mô tả
-        input#discriptionCourse.form-control(type='text', name='description')
+        textarea#discriptionCourse.form-control(name='description') #{ course.description ? course.description : '' }
     .mb-3
         label.form-label(for='imgCourse') Hình ảnh link
-        input#imgCourse.form-control(type='text', name='img')
+        input#imgCourse.form-control(
+            type='text',
+            name='img',
+            value=course.img ? course.img : ''
+        )
     .mb-3
         label.form-label(for='videoID') VideoID
-        input#videoID.form-control(type='text', name='videoID')
-    button.btn.btn-primary(type='submit') Create
+        input#videoID.form-control(
+            type='text',
+            name='videoID',
+            value=course.videoID ? course.videoID : ''
+        )
+    button.btn.btn-primary(type='submit') Lưu lại

@@ -3,18 +3,20 @@ const slugify = require('slugify');
 
 class CreateCourseController {
     create(req, res) {
-        res.render('createCoursePage');
+        const course = {};
+        course.path = '/create/store';
+        res.render('createCoursePage', { course });
     }
     async store(req, res) {
         try {
             const formData = req.body;
             formData.slug = slugify(formData.name, { lower: true });
-            const newCourses = await Course.insertMany(formData);
-            console.log('Đã thêm các tài liệu mới:', newCourses);
+            await Course.insertMany(formData);
             res.redirect('/');
         } catch (error) {
-            console.error('Lỗi khi thêm dữ liệu:', error);
-            res.status(500).send('Có lỗi xảy ra khi thêm dữ liệu.' + error);
+            res.status(500).send(
+                'Có lỗi xảy ra khi thêm dữ liệu, mã lỗi: ' + error
+            );
         }
     }
 }
