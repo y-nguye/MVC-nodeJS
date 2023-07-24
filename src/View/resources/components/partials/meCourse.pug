@@ -15,4 +15,47 @@ table.table
             td #{ item.updatedAtPug }
             td
                 a.btn-link(type='button', href=`/course/${item.id}/edit`) Sửa
-                a.btn-link.ms-3(type='button', href=`${item.id}/delete`) Xoá
+
+                a.btn-link.ms-3(
+                    type='submit',
+                    data-bs-toggle='modal',
+                    data-bs-target='#deleteModal',
+                    data-id=`${item.id}`
+                ) Xoá
+
+form(method='POST', name='delete-course-form') 
+
+#deleteModal.modal.fade(
+    tabindex='-1',
+    aria-labelledby='exampleModalLabel',
+    aria-hidden='true'
+)
+    .modal-dialog
+        .modal-content
+            .modal-header
+                h5#exampleModalLabel.modal-title Thông báo
+                button.btn-close(
+                    type='button',
+                    data-bs-dismiss='modal',
+                    aria-label='Close'
+                )
+            .modal-body Bạn muốn xoá chứ?
+            .modal-footer
+                button.btn.btn-danger.btn-delete.btn-delete__confirm(
+                    type='button'
+                ) Xoá
+                button.btn.btn-primary(type='button', data-bs-dismiss='modal') Không
+
+script.
+    var myModal = document.getElementById('deleteModal');
+    var btnDeleteConfirm = document.querySelector('.btn-delete__confirm');
+    var deleteCourseForm = document.forms['delete-course-form'];
+
+    myModal.addEventListener('shown.bs.modal', function () {
+        // Lấy từ data-id trên thẻ HTML
+        var id = event.relatedTarget.dataset.id;
+        btnDeleteConfirm.addEventListener('click', function () {
+            deleteCourseForm.action = `/course/${id}/delete`;
+            deleteCourseForm.submit();
+        });
+    });
