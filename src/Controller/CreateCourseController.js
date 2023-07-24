@@ -11,7 +11,7 @@ class CreateCourseController {
         try {
             const formData = req.body;
             formData.slug = slugify(formData.name, { lower: true });
-            await Course.insertMany(formData);
+            await Course.create(formData);
             res.redirect('/');
         } catch (error) {
             res.status(500).send(

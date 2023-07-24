@@ -1,5 +1,5 @@
-h1 Khoá học của tôi
-a(href='me/trash') Thùng rác
+a(href='/me') Trở về danh sách khoá học
+h1 Khoá học đã xoá
 table.table
     thead
         tr
@@ -16,16 +16,17 @@ table.table
             td #{ item.createdAtPug }
             td #{ item.updatedAtPug }
             td
-                a.btn-link(type='button', href=`/course/${item.id}/edit`) Sửa
+                a.btn-link.btn-restore(type='button', data-id=`${item.id}`) Khôi phục
 
-                a.btn-link.ms-3(
+                a.btn-link.ms-3.btn-delete(
                     type='submit',
                     data-bs-toggle='modal',
                     data-bs-target='#deleteModal',
                     data-id=`${item.id}`
-                ) Xoá
+                ) Xoá vĩnh viễn
 
-form(method='POST', name='delete-course-form') 
+form(method='POST', name='restore-course-form')
+form(method='POST', name='delete-course-form')
 
 #deleteModal.modal.fade(
     tabindex='-1',
@@ -41,23 +42,35 @@ form(method='POST', name='delete-course-form')
                     data-bs-dismiss='modal',
                     aria-label='Close'
                 )
-            .modal-body Bạn muốn xoá chứ?
+            .modal-body Việc này sẽ không thể khôi phục lại dữ liệu, bạn muốn xoá vĩnh viễn chứ?
             .modal-footer
                 button.btn.btn-danger.btn-delete.btn-delete__confirm(
                     type='button'
-                ) Xoá
+                ) Xoá vĩnh viễn
                 button.btn.btn-primary(type='button', data-bs-dismiss='modal') Không
 
 script.
     var myModal = document.getElementById('deleteModal');
     var btnDeleteConfirm = document.querySelector('.btn-delete__confirm');
     var deleteCourseForm = document.forms['delete-course-form'];
+    var restoreCourseForm = document.forms['restore-course-form'];
+    var restoreBtns = document.querySelectorAll('.btn-restore');
+    var deleteBtns = document.querySelectorAll('.btn-delete');
+
+    restoreBtnArray = Array.from(restoreBtns);
+    restoreBtnArray.map((x) =>
+        x.addEventListener('click', function () {
+            var id = this.dataset.id;
+            restoreCourseForm.action = `/me/trash/${id}/restore`;
+            // Gửi ID sang Controller
+            restoreCourseForm.submit();
+        })
+    );
 
     myModal.addEventListener('shown.bs.modal', function () {
-        // Lấy từ data-id trên thẻ HTML
         var id = event.relatedTarget.dataset.id;
         btnDeleteConfirm.addEventListener('click', function () {
-            deleteCourseForm.action = `/course/${id}/delete`;
+            deleteCourseForm.action = `/course/${id}/force`;
             deleteCourseForm.submit();
         });
     });
