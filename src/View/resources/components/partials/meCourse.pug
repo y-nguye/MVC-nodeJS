@@ -68,18 +68,18 @@ form(method='POST', name='delete-course-form')
 script.
     var myModal = document.getElementById('deleteModal');
     var actionSelect = document.getElementById('actionSelect');
-    var btnDeleteConfirm = document.querySelector('.btn-delete__confirm');
+    var deleteConfirmOnModalBtn = document.querySelector('.btn-delete__confirm');
     var deleteCourseForm = document.forms['delete-course-form'];
     var checkboxAll = document.getElementById('checkbox-all');
     var courseItemCheckboxNodelist = document.querySelectorAll("input[name='courseIDs[]']");
     // Spread operator
     var courseItemCheckbox = [...courseItemCheckboxNodelist];
-    var renderSubmitBtn = document.querySelector('.render-submit-btn');
+    var renderSelectSubmitBtn = document.querySelector('.render-submit-btn');
 
     myModal.addEventListener('shown.bs.modal', function () {
         // Lấy từ data-id trên thẻ HTML
         var id = event.relatedTarget.dataset.id;
-        btnDeleteConfirm.addEventListener('click', function () {
+        deleteConfirmOnModalBtn.addEventListener('click', function () {
             deleteCourseForm.action = `/course/${id}/delete`;
             deleteCourseForm.submit();
         });
@@ -93,14 +93,21 @@ script.
 
     courseItemCheckbox.forEach((x) => {
         x.addEventListener('change', function () {
+            // Kiểm tra xem có item nào chưa được check => return: true,
+            // Nếu toàn bộ item được check => return: false,
             var isNotCheckedAll = courseItemCheckbox.some((y) => y.checked === false);
             checkboxAll.checked = !isNotCheckedAll;
             renderCheckSubmitBtn();
         });
     });
 
+    actionSelect.addEventListener('change', function () {
+        renderCheckSubmitBtn();
+    });
+
     function renderCheckSubmitBtn() {
         var isChecked = courseItemCheckbox.some((y) => y.checked === true);
-        if (isChecked) renderSubmitBtn.classList.remove('disabled');
-        else renderSubmitBtn.classList.add('disabled');
+        if (isChecked && actionSelect.value) {
+            renderSelectSubmitBtn.classList.remove('disabled');
+        } else renderSelectSubmitBtn.classList.add('disabled');
     }
