@@ -1,29 +1,46 @@
-h1 Khoá học của tôi
-a(href='me/trash') Thùng rác
-table.table
-    thead
-        tr
-            th(scope='col') #
-            th(scope='col') Tên khoá học
-            th(scope='col') Thời gian bắt đầu học
-            th(scope='col') Thời gian cập nhật
-            th(scope='col')
-    tbody
-    each item in course
-        tr
-            th(scope='row') #{ item.displayIndex }
-            td #{ item.name }
-            td #{ item.createdAtPug }
-            td #{ item.updatedAtPug }
-            td
-                a.btn-link(type='button', href=`/course/${item.id}/edit`) Sửa
+form(method='POST', action='/course/form-action')
+    h1 Khoá học của tôi
+    a(href='me/trash') Thùng rác
+    .form-check.d-flex.align-items-center
+        input#checkbox-all.form-check-input(type='checkbox', value='')
+        label.form-check-label.ms-2(for='checkbox-all')
+            Default Chọn tất cả
+        select#actionSelect.form-select.width-select.ms-2(name='action')
+            option(selected='', value='') -- Hành động --
+            option(value='delete') Xoá
+        button.btn.btn-primary.ms-2.render-submit-btn.disabled(type='submit') Thực hiện
 
-                a.btn-link.ms-3(
-                    type='submit',
-                    data-bs-toggle='modal',
-                    data-bs-target='#deleteModal',
-                    data-id=`${item.id}`
-                ) Xoá
+    table.table
+        thead
+            tr
+                th(scope='col')
+                th(scope='col') #
+                th(scope='col') Tên khoá học
+                th(scope='col') Thời gian bắt đầu học
+                th(scope='col') Thời gian cập nhật
+                th(scope='col')
+        tbody
+        each item in course
+            tr
+                td
+                    input.form-check-input(
+                        type='checkbox',
+                        name='courseIDs[]',
+                        value=`${item.id}`
+                    )
+                th(scope='row') #{ item.displayIndex }
+                td #{ item.name }
+                td #{ item.createdAtPug }
+                td #{ item.updatedAtPug }
+                td
+                    a.btn-link(type='button', href=`/course/${item.id}/edit`) Sửa
+
+                    a.btn-link.ms-3(
+                        type='button',
+                        data-bs-toggle='modal',
+                        data-bs-target='#deleteModal',
+                        data-id=`${item.id}`
+                    ) Xoá
 
 form(method='POST', name='delete-course-form') 
 
@@ -50,8 +67,14 @@ form(method='POST', name='delete-course-form')
 
 script.
     var myModal = document.getElementById('deleteModal');
+    var actionSelect = document.getElementById('actionSelect');
     var btnDeleteConfirm = document.querySelector('.btn-delete__confirm');
     var deleteCourseForm = document.forms['delete-course-form'];
+    var checkboxAll = document.getElementById('checkbox-all');
+    var courseItemCheckboxNodelist = document.querySelectorAll("input[name='courseIDs[]']");
+    // Spread operator
+    var courseItemCheckbox = [...courseItemCheckboxNodelist];
+    var renderSubmitBtn = document.querySelector('.render-submit-btn');
 
     myModal.addEventListener('shown.bs.modal', function () {
         // Lấy từ data-id trên thẻ HTML
@@ -61,3 +84,23 @@ script.
             deleteCourseForm.submit();
         });
     });
+
+    checkboxAll.addEventListener('change', function () {
+        var isCheckedAll = this.checked;
+        courseItemCheckbox.forEach((x) => (x.checked = isCheckedAll));
+        renderCheckSubmitBtn();
+    });
+
+    courseItemCheckbox.forEach((x) => {
+        x.addEventListener('change', function () {
+            var isNotCheckedAll = courseItemCheckbox.some((y) => y.checked === false);
+            checkboxAll.checked = !isNotCheckedAll;
+            renderCheckSubmitBtn();
+        });
+    });
+
+    function renderCheckSubmitBtn() {
+        var isChecked = courseItemCheckbox.some((y) => y.checked === true);
+        if (isChecked) renderSubmitBtn.classList.remove('disabled');
+        else renderSubmitBtn.classList.add('disabled');
+    }

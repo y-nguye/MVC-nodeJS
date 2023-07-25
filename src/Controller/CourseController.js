@@ -71,6 +71,28 @@ class CourseController {
             .then(() => res.redirect('back'))
             .catch(next);
     }
+
+    formAction(req, res, next) {
+        switch (req.body.action) {
+            case 'restore':
+                Course.restore({ _id: { $in: req.body.courseIDs } })
+                    .then(() => res.redirect('back'))
+                    .catch(next);
+                break;
+            case 'delete':
+                Course.delete({ _id: { $in: req.body.courseIDs } })
+                    .then(() => res.redirect('back'))
+                    .catch(next);
+                break;
+            case 'force':
+                Course.deleteOne({ _id: { $in: req.body.courseIDs } })
+                    .then(() => res.redirect('back'))
+                    .catch(next);
+                break;
+            default:
+                res.json({ message: 'Action is not allowed' });
+        }
+    }
 }
 
 module.exports = new CourseController();

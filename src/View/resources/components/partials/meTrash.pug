@@ -1,29 +1,45 @@
-a(href='/me') Trở về danh sách khoá học
-h1 Khoá học đã xoá
-table.table
-    thead
-        tr
-            th(scope='col') #
-            th(scope='col') Tên khoá học
-            th(scope='col') Thời gian bắt đầu học
-            th(scope='col') Thời gian cập nhật
-            th(scope='col')
-    tbody
-    each item in course
-        tr
-            th(scope='row') #{ item.displayIndex }
-            td #{ item.name }
-            td #{ item.createdAtPug }
-            td #{ item.updatedAtPug }
-            td
-                a.btn-link.btn-restore(type='button', data-id=`${item.id}`) Khôi phục
+form(method='POST', action='/course/form-action')
+    a(href='/me') Trở về danh sách khoá học
+    h1 Khoá học đã xoá
+    .form-check.d-flex.align-items-center
+        input#checkbox-all.form-check-input(type='checkbox', value='')
+        label.form-check-label.ms-2(for='checkbox-all')
+            Default Chọn tất cả
+        select#actionSelect.form-select.width-select.ms-2(name='action')
+            option(selected='', value='') -- Hành động --
+            option(value='restore') Khôi phục
+            option(value='force') Xoá vĩnh viễn
+        button.btn.btn-primary.ms-2.render-submit-btn.disabled(type='submit') Thực hiện
 
-                a.btn-link.ms-3.btn-delete(
-                    type='submit',
-                    data-bs-toggle='modal',
-                    data-bs-target='#deleteModal',
-                    data-id=`${item.id}`
-                ) Xoá vĩnh viễn
+    table.table
+        thead
+            tr
+                th(scope='col')
+                th(scope='col') #
+                th(scope='col') Tên khoá học
+                th(scope='col') Thời gian đã xoá
+                th(scope='col')
+        tbody
+        each item in course
+            tr
+                td
+                    input.form-check-input(
+                        type='checkbox',
+                        name='courseIDs[]',
+                        value=`${item.id}`
+                    )
+                th(scope='row') #{ item.displayIndex }
+                td #{ item.name }
+                td #{ item.deletedAt }
+                td
+                    a.btn-link.btn-restore(type='button', data-id=`${item.id}`) Khôi phục
+
+                    a.btn-link.ms-3.btn-delete(
+                        type='submit',
+                        data-bs-toggle='modal',
+                        data-bs-target='#deleteModal',
+                        data-id=`${item.id}`
+                    ) Xoá vĩnh viễn
 
 form(method='POST', name='restore-course-form')
 form(method='POST', name='delete-course-form')
@@ -51,26 +67,51 @@ form(method='POST', name='delete-course-form')
 
 script.
     var myModal = document.getElementById('deleteModal');
-    var btnDeleteConfirm = document.querySelector('.btn-delete__confirm');
+    var deleteConfirmBtn = document.querySelector('.btn-delete__confirm');
     var deleteCourseForm = document.forms['delete-course-form'];
     var restoreCourseForm = document.forms['restore-course-form'];
-    var restoreBtns = document.querySelectorAll('.btn-restore');
-    var deleteBtns = document.querySelectorAll('.btn-delete');
+    var restoreBtnsNodeList = document.querySelectorAll('.btn-restore');
+    restoreBtn = Array.from(restoreBtnsNodeList);
 
-    restoreBtnArray = Array.from(restoreBtns);
-    restoreBtnArray.map((x) =>
+    var checkboxAll = document.getElementById('checkbox-all');
+    var courseItemCheckboxNodelist = document.querySelectorAll("input[name='courseIDs[]']");
+    var courseItemCheckbox = [...courseItemCheckboxNodelist];
+    var renderSubmitBtn = document.querySelector('.render-submit-btn');
+
+    restoreBtn.map((x) =>
         x.addEventListener('click', function () {
             var id = this.dataset.id;
             restoreCourseForm.action = `/me/trash/${id}/restore`;
-            // Gửi ID sang Controller
             restoreCourseForm.submit();
         })
     );
 
     myModal.addEventListener('shown.bs.modal', function () {
         var id = event.relatedTarget.dataset.id;
-        btnDeleteConfirm.addEventListener('click', function () {
+        deleteConfirmBtn.addEventListener('click', function () {
             deleteCourseForm.action = `/course/${id}/force`;
             deleteCourseForm.submit();
         });
     });
+
+    checkboxAll.addEventListener('change', function () {
+        var isCheckedAll = this.checked;
+        courseItemCheckbox.forEach((x) => (x.checked = isCheckedAll));
+        renderCheckSubmitBtn();
+    });
+
+    courseItemCheckbox.forEach((x) => {
+        x.addEventListener('change', function () {
+            // Kiểm tra xem có item nào chưa được check => return: true,
+            // Nếu toàn bộ item được check => return: false,
+            var isNotCheckedAll = courseItemCheckbox.some((y) => y.checked === false);
+            checkboxAll.checked = !isNotCheckedAll;
+            renderCheckSubmitBtn();
+        });
+    });
+
+    function renderCheckSubmitBtn() {
+        var isChecked = courseItemCheckbox.some((y) => y.checked === true);
+        if (isChecked) renderSubmitBtn.classList.remove('disabled');
+        else renderSubmitBtn.classList.add('disabled');
+    }

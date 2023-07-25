@@ -38,8 +38,7 @@ class MeController {
                 displayIndex: i + 1,
                 id: x._id,
                 name: x.name,
-                createdAtPug: x.createdAt,
-                updatedAtPug: x.updatedAt,
+                deletedAt: x.deletedAt,
             }));
             res.render('meTrashPage', {
                 course: courseWithIndex,
