@@ -1,7 +1,18 @@
 form(method='POST', action='/course/form-action')
-    a(href='/me') Trở về danh sách khoá học
+    a(href='/me') 
+        svg.bi.bi-caret-left(
+            xmlns='http://www.w3.org/2000/svg',
+            width='16',
+            height='16',
+            fill='currentColor',
+            viewbox='0 0 16 16'
+        )
+            path(
+                d='M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z'
+            )
+        span.ms-1 Trở về danh sách khoá học
     h1 Khoá học đã xoá
-    .form-check.d-flex.align-items-center
+    .form-check.d-flex.align-items-center.mt-3
         input#checkbox-all.form-check-input(type='checkbox', value='')
         label.form-check-label.ms-2(for='checkbox-all')
             Default Chọn tất cả

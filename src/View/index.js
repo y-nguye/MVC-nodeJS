@@ -7,6 +7,9 @@ const route = require('./routes');
 const db = require('../Model/config/db');
 db.connect();
 
+const sortMiddleware = require('../Controller/middlewares/SortMiddleware');
+app.use(sortMiddleware);
+
 app.use(
     express.urlencoded({
         extended: true,
