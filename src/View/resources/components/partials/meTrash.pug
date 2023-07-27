@@ -13,9 +13,6 @@ form(method='POST', action='/course/form-action')
         span.ms-1 Trở về danh sách khoá học
     h1 Khoá học đã xoá
     .form-check.d-flex.align-items-center.mt-3
-        input#checkbox-all.form-check-input(type='checkbox', value='')
-        label.form-check-label.ms-2(for='checkbox-all')
-            Default Chọn tất cả
         select#actionSelect.form-select.width-select.ms-2(name='action')
             option(selected='', value='') -- Hành động --
             option(value='restore') Khôi phục
@@ -26,6 +23,10 @@ form(method='POST', action='/course/form-action')
         thead
             tr
                 th(scope='col')
+                    input#checkbox-all.form-check-input(
+                        type='checkbox',
+                        value=''
+                    )
                 th(scope='col') #
                 th(scope='col') Tên khoá học
                 th(scope='col') Thời gian đã xoá
