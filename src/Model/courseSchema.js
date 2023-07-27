@@ -20,6 +20,20 @@ const Course = new Schema(
     }
 );
 
+Course.query.sortStable = function (req, res) {
+    if (req.query.hasOwnProperty('_sort')) {
+        const isValidType = ['asc', 'desc'].includes(req.query.type);
+        const type = isValidType ? req.query.type : 'asc';
+
+        res.locals._sort.type = type;
+
+        return this.sort({
+            [req.query.column]: type,
+        });
+    }
+    return this;
+};
+
 Course.plugin(mongoose_delete, { deletedAt: true, overrideMethods: 'all' });
 
 module.exports = mongoose.model('Course', Course);
